@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.login),  # 登入界面
     path('index/', views.index),  # 网页首页
+    path('logout/', views.logout),  # 登出界面
 ]
