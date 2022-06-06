@@ -9,7 +9,6 @@ class login_checking(MiddlewareMixin):
         if request.path_info in ["/login/"]:
             return None
         info_dict = request.session.get("info")
-        print(info_dict)
         if info_dict:
             return None
         return redirect('/login/')

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django import forms
 from web import models
+from django.forms import widgets
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -33,8 +35,31 @@ def login(request):
         return render(request, 'user/login.html', {'form': form})
 
 
+# 个人任务的创建
+class TaskModelForm(forms.ModelForm):
+    class Meta:
+        model = models.Task
+        fields = "__all__"
+        widgets = {
+            "level": widgets.Select(attrs={'class': 'form-control'}),
+            "title": widgets.TextInput(attrs={'class': 'form-control'}),
+            "detail": widgets.TextInput(attrs={'class': 'form-control'}),
+            "user": widgets.Select(attrs={'class': 'form-control'}),
+            "createtime": widgets.DateTimeInput(attrs={'class': 'form-control'}),
+        }
+
+
+@csrf_exempt
 def index(request):
-    return render(request, 'user/index.html')
+    info_id = request.session.get('info')['id']
+    queryset = models.Task.objects.filter(user=info_id).all()
+    taskform = TaskModelForm()
+    context = {
+        "taskform": taskform,
+        "queryset": queryset,
+    }
+
+    return render(request, 'user/index.html', context)
 
 
 def logout(request):

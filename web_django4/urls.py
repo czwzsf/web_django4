@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web import views
+from web.web_views import user, MIS
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login),  # 登入界面
-    path('index/', views.index),  # 网页首页
-    path('logout/', views.logout),  # 登出界面
+    path('login/', user.login),  # 登入界面
+    path('index/', user.index),  # 网页首页
+    path('logout/', user.logout),  # 登出界面
 ]
