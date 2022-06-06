@@ -49,17 +49,17 @@ class TaskModelForm(forms.ModelForm):
         }
 
 
-@csrf_exempt
 def index(request):
     info_id = request.session.get('info')['id']
     queryset = models.Task.objects.filter(user=info_id).all()
+    print(queryset)
     taskform = TaskModelForm()
     context = {
         "taskform": taskform,
         "queryset": queryset,
     }
 
-    return render(request, 'user/index.html', context)
+    return render(request, 'user/index.html', {'queryset': queryset})
 
 
 def logout(request):
