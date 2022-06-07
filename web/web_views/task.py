@@ -27,5 +27,6 @@ def index(request):
     return render(request, 'task/task.html', {'form': form})
 
 
+
 def task_add(request):
     return None
