@@ -1,0 +1,61 @@
+{% extends 'Motherboard/Motherboard.html' %}
+{% block title %}
+    <title>任务管理创建</title>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">任务创建</div>
+        <div class="panel-body">
+            <form method="post" id="form_add">
+                <div class="clearfix">
+                    {% for field in form %}
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                                <span style="color: red">{{ field.errors.0 }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-xs-12">
+                    <button id="btn_add" type="submit" class="btn btn-primary">建立</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+
+        $(function () {
+            bindBtnaddEvent();
+        })
+
+        function bindBtnaddEvent() {
+            $("#btn_add").click(function () {
+                $.ajax({
+                    url: '/task/add/',
+                    type: "post",
+                    data: $("#form_add").serialize(),
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            {#console.log("添加成功！！");#}
+                            {#目前存在的问题在于，代码是被识别出来了，但是弹出小页面这个功能不知道为啥没有实现出来#}
+                            location.reload()
+                            {#alert("添加成功");#}
+                        } else {
+                            $.each(res.error, function (name, data) {
+                                console.log("cuole1");
+                                {#$("#id_" + name).next().text(data[0]);#}
+                            })
+                        }
+                    }
+                })
+            })
+        }
+    </script>
+{% endblock %}
